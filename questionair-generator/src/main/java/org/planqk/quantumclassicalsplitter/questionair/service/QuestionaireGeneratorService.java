@@ -1,6 +1,8 @@
 package org.planqk.quantumclassicalsplitter.questionair.service;
 
 import org.planqk.quantumclassicalsplitter.questionair.QuestionaireSupplier;
+import org.planqk.quantumclassicalsplitter.questionair.dto.Question;
+import org.planqk.quantumclassicalsplitter.questionair.dto.Task;
 import org.planqk.quantumclassicalsplitter.questionair.dto.TaskQuestions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ public class QuestionaireGeneratorService {
         this.questionaireSupplier = supplier;
     }
 
-    public List<TaskQuestions> getQuestionsPerTask(final List<String> tasks) {
+    public List<TaskQuestions> getQuestionsPerTask(final List<Task> tasks) {
         return questionaireSupplier.consume(tasks);
     }
 }

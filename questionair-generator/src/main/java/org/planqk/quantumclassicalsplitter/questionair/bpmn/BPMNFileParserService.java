@@ -1,5 +1,6 @@
 package org.planqk.quantumclassicalsplitter.questionair.bpmn;
 
+import org.planqk.quantumclassicalsplitter.questionair.dto.Task;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
@@ -37,8 +38,8 @@ public class BPMNFileParserService {
      * @param file The BPMN file
      * @return A list of tasks specified in the bpmn file.
      */
-    public List<String> getBPMNTasks(final MultipartFile file) {
-        final List<String> tasks = new LinkedList<>();
+    public List<Task> getBPMNTasks(final MultipartFile file) {
+        final List<Task> tasks = new LinkedList<>();
         try {
             final SAXParserFactory factory = SAXParserFactory.newInstance();
             final SAXParser saxParser = factory.newSAXParser();

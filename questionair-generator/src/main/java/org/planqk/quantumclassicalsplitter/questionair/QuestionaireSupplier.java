@@ -1,5 +1,7 @@
 package org.planqk.quantumclassicalsplitter.questionair;
 
+import org.planqk.quantumclassicalsplitter.questionair.dto.Question;
+import org.planqk.quantumclassicalsplitter.questionair.dto.Task;
 import org.planqk.quantumclassicalsplitter.questionair.dto.TaskQuestions;
 
 import java.util.LinkedList;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class QuestionaireSupplier {
 
-    private final List<Function<String, String>> questions;
+    private final List<Function<Task, Question>> questions;
 
     public QuestionaireSupplier() {
         this.questions = new LinkedList<>();
@@ -33,7 +35,7 @@ public class QuestionaireSupplier {
      * @param questionSupplier The functional question supplier.
      * @return This instance.
      */
-    public QuestionaireSupplier add(final Function<String, String> questionSupplier) {
+    public QuestionaireSupplier add(final Function<Task, Question> questionSupplier) {
         this.questions.add(Objects.requireNonNull(questionSupplier));
         return this;
     }
@@ -43,12 +45,12 @@ public class QuestionaireSupplier {
      * @param tasks The tasks to create the response from.
      * @return A DTO of TaskQuestions.
      */
-    public List<TaskQuestions> consume(final List<String> tasks) {
+    public List<TaskQuestions> consume(final List<Task> tasks) {
         return tasks.stream()
                 .map(task ->
                     new TaskQuestions(task, questions.stream()
                             .map(f -> f.apply(task))
-                            .filter(question -> question != null && !question.isBlank())
+                            .filter(Objects::nonNull)
                             .collect(Collectors.toList())
                     )
                 )

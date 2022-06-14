@@ -1,7 +1,9 @@
 package org.planqk.quantumclassicalsplitter.questionair.routes;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.planqk.quantumclassicalsplitter.questionair.bpmn.BPMNFileParserService;
+import org.planqk.quantumclassicalsplitter.questionair.dto.Task;
 import org.planqk.quantumclassicalsplitter.questionair.dto.TaskQuestions;
 import org.planqk.quantumclassicalsplitter.questionair.service.QuestionaireGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,23 +45,26 @@ public class QuestionaireGeneratorController {
     private final BPMNFileParserService bpmnFileParserService;
     private final QuestionaireGeneratorService questionaireGeneratorService;
 
-    private final Gson gson = new Gson();
+    private final Gson gson;
 
     @Autowired
     public QuestionaireGeneratorController(final BPMNFileParserService bpmnFileParserService,
                                            final QuestionaireGeneratorService questionaireGeneratorService) {
         this.bpmnFileParserService = bpmnFileParserService;
         this.questionaireGeneratorService = questionaireGeneratorService;
+        this.gson = new GsonBuilder().serializeSpecialFloatingPointValues()
+                .serializeNulls()
+                .create();
     }
 
     @PostMapping
     public ResponseEntity<?> handleBPMNFileUpload(@RequestParam("file") final MultipartFile file) {
-        if (!FILE_TYPE.equalsIgnoreCase(file.getContentType())) {
-            return ResponseEntity.badRequest()
-                    .body("File must be a '" + FILE_TYPE + "', but actually is '" + file.getContentType() + "'");
-        }
+//        if (!FILE_TYPE.equalsIgnoreCase(file.getContentType())) {
+//            return ResponseEntity.badRequest()
+//                    .body("File must be a '" + FILE_TYPE + "', but actually is '" + file.getContentType() + "'");
+//        }
 
-        final List<String> tasks = this.bpmnFileParserService.getBPMNTasks(file);
+        final List<Task> tasks = this.bpmnFileParserService.getBPMNTasks(file);
         final List<TaskQuestions> questions = this.questionaireGeneratorService.getQuestionsPerTask(tasks);
 
         return ResponseEntity.ok(gson.toJson(questions));

@@ -11,9 +11,9 @@ import java.util.List;
 public class TaskQuestions {
 
     /** The specific tasks. */
-    private final String task;
+    private final Task task;
 
     /** The questions for this task to answer */
-    private final List<String> questions;
+    private final List<Question> questions;
 
 }
