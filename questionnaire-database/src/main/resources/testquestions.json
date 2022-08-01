@@ -1,0 +1,45 @@
+{
+  "questions": [
+    {
+      "question": "Wollen Sie Quantencomputer nutzen?",
+      "questionType": "YES_NO",
+      "root": true,
+      "_id": "1"
+    },
+    {
+      "question": "Ist Ihnen performance wichtig?",
+      "questionType": "YES_NO",
+      "root": false,
+      "_id": "2"
+    },
+    {
+      "question": "Was ist Ihr Budget?",
+      "questionType": "NUMBER",
+      "numberRange": {
+        "from": 0,
+        "to": "+Infinity"
+      },
+      "_id": "3"
+    },
+    {
+      "question": "Wie viele Qubits benoetigen Sie?",
+      "questionType": "NUMBER",
+      "numberRange": {
+        "from": 0,
+        "to": 128
+      },
+      "_id": "4"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "1", "to": "2"
+    },
+    {
+      "from": "2", "to": "3", "condition": "$answer == 'yes'"
+    },
+    {
+      "from": "2", "to": "4", "condition": "$answer == 'no'"
+    }
+  ]
+}
